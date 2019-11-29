@@ -33,7 +33,7 @@ function handleDelete(filePath) {
         if (fs.statSync(filePath)) {
             fs.unlinkSync(filePath);
         } 
-    }, 10000);
+    }, 600000);
 
 }
 const hash = {}
