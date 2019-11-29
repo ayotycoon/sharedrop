@@ -95,7 +95,7 @@ io.on('connection', (socket) => {
                 } else {
                     console.log(' no error')
                 }
-                if (err) return socket.emit('upload error');
+                    if (err) return io.to(data.code).emit('upload error', error);
 
                 data.file.data = filePathName;
                     const splitFileName = data.file.name.split('.');
