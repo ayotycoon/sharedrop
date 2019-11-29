@@ -5,7 +5,7 @@ const logger = require('morgan');
 const fs = require('fs');
 
 const apiRouter = require('./routes/api');
-let port = 8080;
+let port = process.evc.PORT || 8080;
 
 const app = express();
 
