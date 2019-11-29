@@ -92,6 +92,8 @@ io.on('connection', (socket) => {
             }, (err) => {
                 if (err) {
                     console.log(err)
+                } else {
+                    console.log(' no error')
                 }
                 if (err) return socket.emit('upload error');
 
