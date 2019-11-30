@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
 
         } else {
             if (!hash[data.code]) {
-                io.to(data.code).emit('404', true)
+                io.to(socket.id).emit('404', true)
                 return
             }
 
@@ -79,10 +79,12 @@ io.on('connection', (socket) => {
 
            
         }
+   
 
     })
 
     socket.on('message', (data) => {
+
         if (data.isFile) {
             const fileBuffer = new Buffer.from(data.file.data);
             const filePathName = Number(new Date()) + data.file.name
@@ -109,6 +111,8 @@ io.on('connection', (socket) => {
         }
 
         data.date = new Date();
+
+
 
         io.to(data.code).emit('message', data)
 
