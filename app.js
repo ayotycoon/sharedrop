@@ -100,12 +100,15 @@ io.on('connection', (socket) => {
                     data.file.ext = splitFileName[splitFileName.length - 1];
 
                     handleDelete(filePath)
+                    data.date = new Date();
                 io.to(data.code).emit('message', data)
             });
 
 
             return
         }
+
+        data.date = new Date();
 
         io.to(data.code).emit('message', data)
 
