@@ -47,7 +47,10 @@ io.on('connection', (socket) => {
             hash[data.code] = true;
 
         } else {
+  
             if (!hash[data.code]) {
+               
+                
                 io.to(socket.id).emit('404', true)
                 return
             }
@@ -59,7 +62,8 @@ io.on('connection', (socket) => {
         }
 
         io.to(data.code).emit('info', infoData)
-        io.to(data.code).emit('sync', true)
+
+        io.to(socket.id).emit('sync', data.code)
 
     })
     socket.on('disconnect', () => {
@@ -77,6 +81,8 @@ io.on('connection', (socket) => {
               
             }
 
+         
+
            
         }
    
@@ -84,7 +90,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('message', (data) => {
-        console.log('message entered')
+
 
         if (data.isFile) {
             const fileBuffer = new Buffer.from(data.file.data);
@@ -112,8 +118,6 @@ io.on('connection', (socket) => {
         }
 
         data.date = new Date();
-
-
 
         io.to(data.code).emit('message', data)
 
