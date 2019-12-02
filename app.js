@@ -84,6 +84,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('message', (data) => {
+        console.log('message entered')
 
         if (data.isFile) {
             const fileBuffer = new Buffer.from(data.file.data);
