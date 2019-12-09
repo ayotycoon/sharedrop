@@ -93,10 +93,10 @@ io.on('connection', (socket) => {
 
 
         if (data.isFile) {
-            console.log('entered file')
+         
 
             if(data.file.isMobile) {
-                console.log('entered mobile')
+             
                 let base64String = data.file.data
                 // Remove header
                 let base64File = base64String.split(';base64,').pop();
