@@ -93,9 +93,51 @@ io.on('connection', (socket) => {
 
 
         if (data.isFile) {
+
+            if(data.isMobile) {
+                let base64String = data.file.data
+                // Remove header
+                let base64File = base64String.split(';base64,').pop();
+
+
+
+                const filePathName = Number(new Date()) + data.file.name
+                const filePath = path.resolve(__dirname, './tmp/' + filePathName)
+
+
+
+
+
+                fs.writeFile(filePath, base64File, {
+                    encoding: 'base64',
+                    flag: "w"
+                }, (err) => {
+                    if (err) {
+                        console.log(err)
+                    }
+                    if (err) return io.to(data.code).emit('upload error', error);
+
+                    data.file.data = filePathName;
+                    const splitFileName = data.file.name.split('.');
+                    data.file.ext = splitFileName[splitFileName.length - 1];
+
+                    handleDelete(filePath)
+                    data.date = new Date();
+                    io.to(data.code).emit('message', data)
+                });
+
+
+
+                return
+            }
             const fileBuffer = new Buffer.from(data.file.data);
             const filePathName = Number(new Date()) + data.file.name
             const filePath = path.resolve(__dirname, './tmp/' + filePathName)
+           
+           
+           
+           
+           
             fs.writeFile(filePath, fileBuffer, {
                 flag: "w"
             }, (err) => {
