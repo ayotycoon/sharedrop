@@ -1,26 +1,36 @@
 const express = require('express');
 const path = require('path');
+
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const fs = require('fs');
 
 const apiRouter = require('./routes/api');
 let port = process.env.PORT || 8080;
+const distPath = path.join(__dirname, 'public');
+
+
 
 const app = express();
+
+
+
+
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(distPath));
 
 
 app.use('/api', apiRouter);
 
-
 app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname + "/public/index.html"));
+
+
+
+res.sendFile(path.resolve(__dirname + "/public/index.html"));
 });
 
 
@@ -42,7 +52,7 @@ const io = require('socket.io')(server);
 io.on('connection', (socket) => {
 
     socket.on('create', (data) => {
-        socket.join(data.code)
+       // socket.join(data.code)
         if (!data.isJoin) {
             hash[data.code] = true;
 
@@ -56,9 +66,13 @@ io.on('connection', (socket) => {
             }
 
         }
+        socket.join(data.code);
         socket.code = data.code
         const infoData = {
-            length: Object.keys(io.sockets.adapter.rooms[data.code].sockets).length
+            length: 1
+        }
+        if (io.sockets.adapter.rooms[data.code]){
+            infoData.length = Object.keys(io.sockets.adapter.rooms[data.code].sockets).length
         }
 
         io.to(data.code).emit('info', infoData)
