@@ -1,0 +1,3 @@
+[submodule "client-src"]
+	path = client-src
+	url = https://github.com/ayotycoon/sharedrop.git
